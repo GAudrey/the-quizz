@@ -1,3 +1,4 @@
+const header = document.body.querySelector('header');
 const main = document.body.querySelector('main');
 let sectionScore = document.createElement('section');
 let button = document.createElement('button')
@@ -7,21 +8,14 @@ fetch('https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=mu
 .then(quizz => {
     let score = 0;
 
+    let category = document.querySelector('#category');
+    header.appendChild(category);
+
     for(let elem of quizz.results){
         let section = document.createElement('section');
         main.appendChild(section);
 
-        let category = document.createElement('span');
-        section.appendChild(category);
         category.textContent = elem.category;
-
-        let type = document.createElement('span');
-        section.appendChild(type);
-        type.textContent = elem.type;
-
-        let difficulty = document.createElement('span');
-        section.appendChild(difficulty);
-        difficulty.textContent = elem.difficulty;
 
         let question = document.createElement('p');
         section.appendChild(question);
@@ -61,12 +55,17 @@ fetch('https://opentdb.com/api.php?amount=10&category=20&difficulty=easy&type=mu
                 sectionScore.textContent = 'Your score is ' + score;
                 answersInput.disabled = true;
             })
-            main.appendChild(sectionScore)
         }
     }
-    main.appendChild(button)
-    button.textContent = 'Your score'
 
+    main.appendChild(button);
+    button.textContent = 'Your score';
+    main.appendChild(sectionScore);
+    sectionScore.id = 'score';
+
+    // let reset = document.createElement('button')
+    // main.appendChild(reset)
+    // reset.textContent = 'Try again'
 })
 
 .catch(error => {
